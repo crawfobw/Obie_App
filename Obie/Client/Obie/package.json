@@ -1,0 +1,13 @@
+{
+  "name": "Obie",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "react-native": "^0.21.0",
+    "react-native-facebook-login": "^1.0.3",
+    "socket.io-client": "^1.4.5"
+  }
+}
