@@ -1,5 +1,5 @@
 /**
- * Created by crawfobw1 on 3/5/16.
+ * Created by crawfobw
  */
 'use strict';
 
@@ -14,6 +14,15 @@ var app = express();
 var server = http.Server(app);
 var ioServer = io(server);
 
+var rooms = [
+    { id: 'sports', name: 'Sports', messages: [""] },
+    { id: 'politics', name: 'Politics', messages: [""] },
+    { id: 'fashion', name: 'Fashion', messages: [""] },
+    { id: 'technology', name: 'Technology', messages: [""] }
+];
+
+var users = [];
+
 // logger development mode
 app.use(logger('dev'));
 
@@ -25,9 +34,32 @@ ioServer.on('connection', function(socket) {
        console.log(data);
     });
 
+    socket.on('login', function(credentials) {
+        console.log(credentials);
+
+        if(!(credentials.userId in users)) {
+            var person = {};
+            person[credentials.userId] = credentials;
+            users.push(person);
+        }
+
+        console.log("logged in users: ");
+        users.forEach(function(user) {
+            console.log(user);
+        })
+    });
+
+    socket.on('logout', function(userId) {
+        // find user and remove from list of active users
+    });
+
     socket.on('chat message', function(message) {
         console.log('received message ' + message);
         ioServer.emit('chat message', message);
+    });
+
+    socket.on('get room', function(roomId) {
+        ioServer.emit('room info', rooms[roomId])
     });
 
     socket.on('disconnect', function() {
@@ -38,10 +70,6 @@ ioServer.on('connection', function(socket) {
 // Get from root
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
-});
-
-app.post('/v1/user/login', function(req, res) {
-
 });
 
 // listen on port 8000

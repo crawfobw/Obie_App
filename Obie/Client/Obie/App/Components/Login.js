@@ -19,10 +19,12 @@ export default class Login extends Component {
           console.log("Logged in!");
           console.log(data);
           _this.setState({ user : data.credentials });
+          _this.props.socket.emit('login', data.credentials);
           _this.props.navigator.push({
       			id: 'EnterName',
-      			socket: _this.props.socket
-    			});
+                user: data.credentials.userId,
+                passProps: {user: data.credentials.userId}
+          });
         }}
         onLogout={function(){
           console.log("Logged out.");
@@ -34,8 +36,9 @@ export default class Login extends Component {
           _this.setState({ user : data.credentials });
           _this.props.navigator.push({
       			id: 'EnterName',
-      			socket: _this.props.socket
-    			});
+                user: data.credentials.userId,
+                passProps: {user: data.credentials.userId}
+          });
         }}
         onLoginNotFound={function(){
           console.log("No user logged in.");

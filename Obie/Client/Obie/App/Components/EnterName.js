@@ -9,6 +9,7 @@ import React, {
   ActivityIndicatorIOS
 } from 'react-native';
 
+import Home from './Home.js';
 import Message from './Message.js';
 
 export default class EnterName extends Component {
@@ -23,24 +24,22 @@ export default class EnterName extends Component {
       name: event.nativeEvent.text
     });
   }
-  // Send chat message to server
+ 
   handleNameSubmit(event) {
     this.props.navigator.push({
-      id: 'Home',
-      name: this.state.name,
-      socket: this.props.socket
+      component: Home,
+      name: this.state.name
     });
   }
 
   render() {
+    var _this = this;
     return (
       <View style={styles.center}>
-        
-        <Image source={require('../../images/Obie.jpg')}/>
       
         <View style={styles.flowRight}>
           <TextInput style={styles.inputName}
-            placeholder="Enter a message"
+            placeholder={_this.props.user}
             textAlign="center"
             onChange={this.handleChange.bind(this)} />
 

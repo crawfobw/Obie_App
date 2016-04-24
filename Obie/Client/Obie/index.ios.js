@@ -23,32 +23,31 @@ class Obie extends Component {
   constructor(props) {
     super(props);
     this.socket = io('http://localhost:8000', {jsonp: false})
+    this.state = {
+      message: ''
+    };
   }
-
-  // when establishing a route, there's a way to create a route. you pass the socket as a param
-  // this in a function might mean different things.
-  // "this" refers to everything in the function itself within its curly braces
-  // within a function you create another. in the inner function, when you call this, you want it to use the outer function -- you use binding.
-  // some function that returns a this.socket
 
   renderScene = (route, navigator) => {
     if (route.id == 'EnterName') {
       // invoke function on trying to pass socket
-      return <EnterName socket={this.socket} index={this.index} navigator={navigator} />
+      return <EnterName socket={this.socket} {...route.passProps} index={this.index} navigator={navigator} />
     } else if (route.id == 'Home') {
-        return <Home name={route.name} socket={this.socket} index={this.index} navigator={navigator}/>
+      return <Home name={route.name} socket={this.socket} index={this.index} navigator={navigator}/>
     } else if (route.id == 'Message') {
-        return <Message socket={this.socket} index={this.index} navigator={navigator} />
+      return <Message socket={this.socket} index={this.index} navigator={navigator} />
     } else if (route.id == 'Login') {
-        return <Login socket={this.socket} index={this.index} navigator={navigator}/>
+      return <Login socket={this.socket} index={this.index} navigator={navigator}/>
+    } else if (route.id == 'Room') {
+      return <ChatRoom socket={this.socket} index={this.index} navigator={navigator}/>
     }
   };
 
   render() {
     return (
-      <Navigator
-        initialRoute={{id: 'Login', index: 0}}
-        renderScene={ this.renderScene } />
+        <Navigator
+          initialRoute={{id: 'Login', index: 0}}
+          renderScene={ this.renderScene } />
     );
   }
 };
@@ -100,7 +99,6 @@ const styles = StyleSheet.create({
   center: {
     padding: 20,
     marginTop: 250,
-    //alignItems: 'center'
   }
 });
 

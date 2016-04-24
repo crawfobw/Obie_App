@@ -3,8 +3,8 @@ import React, {
 	View,
 	Component,
 	StyleSheet,
-  TextInput,
-  TouchableHighlight,
+    TextInput,
+    TouchableHighlight,
 } from 'react-native';
 
 import Message from './Message.js';
@@ -13,21 +13,16 @@ export default class Home extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: props.name
+			name: props.route.name
 		}
+        //fetch('graph.faceb')
 	}
 	render() {
 		return (
 			<View style={styles.flowDown}>
-				<View style={styles.topLeft}>
-					<Text> Hi, {this.props.name}. </Text> 
-				</View>
 
-         
-
-			</View>
-		)
-
+            </View>
+        )
 	}
 };
 
