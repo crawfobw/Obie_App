@@ -15,8 +15,10 @@ var server = http.Server(app);
 var ioServer = io(server);
 
 var rooms = [
-    { id: 'sports', name: 'Sports', messages: [""] },
-    { id: 'politics', name: 'Politics', messages: [""] },
+    { id: 'sports', name: 'Sports', messages: [{"David Harper": "Lebron James is the GOAT"}, {"John Fox": "Michael Jordan was easily better than Lebron"},
+        {"David Harper": "Stop being a Lebron Hater!!!"}] },
+    { id: 'politics', name: 'Politics', messages: [{"Andrew Johnson": "Bernie Sanders for pres #feelthebern"},
+        {"Christina Liu": "I feel that we need a moderate president"}, {"Leslie Pratt": "There isn't time for moderates, we need TRUMP! MAKE AMERICA GREAT AGAIN!!!"}]},
     { id: 'fashion', name: 'Fashion', messages: [""] },
     { id: 'technology', name: 'Technology', messages: [""] }
 ];
