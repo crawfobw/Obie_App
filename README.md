@@ -1,4 +1,14 @@
-This is a simple broadcast messenger. It is currently hosted locally.
+# Overview
+
+Obie is a simple iOS chatroom application that provides Facebook authentication and allows users to send broadcast messages in four different chatrooms: Sports, Politics, Fashion, and Technology. It was built using NodeJS and ReactNative, and it relies primarily on TCP segments for network communication, although HTTP requests are used in several cases. The application is currently hosted locally.
+
+# Documentation
+
+## Server
+
+## Client
+
+# Installation
 
 To start, please 'npm install' in both the Client and Server directories
 
