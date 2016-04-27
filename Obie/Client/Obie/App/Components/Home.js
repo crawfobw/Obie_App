@@ -9,22 +9,84 @@ import React, {
 
 import Message from './Message.js';
 
+var goToChatRoom = function(room, user, navigator) {
+    navigator.push({
+        id: 'Room',
+        passProps: { roomId : room, name: user }
+    });
+};
+
 export default class Home extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: props.route.name
-		}
-        //fetch('graph.faceb')
+			name: 'placeholder'
+		};
+        //this.props.socket.emit('checkConnection', this.props.user);
+        var path = 'https://graph.facebook.com/' + this.props.user.userId +"?access_token=" + this.props.user.token;
+        fetch(path, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => response.text())
+          .then((responseText) => {
+            this.setState({name: JSON.parse(responseText).name});
+          })
+          .catch((error) => {
+            this.props.socket.emit('checkConnection', error);
+        });
 	}
+
+
+    handleSports(event) {
+        goToChatRoom('sports', this.state.name, this.props.navigator);
+    }
+    handlePolitics(event) {
+        goToChatRoom('politics', this.state.name, this.props.navigator);
+    }
+    handleFashion(event) {
+        goToChatRoom('fashion', this.state.name, this.props.navigator);
+    }
+    handleTechnology(event) {
+        goToChatRoom('technology', this.state.name, this.props.navigator);
+    }
+
+
 	render() {
 		return (
 			<View style={styles.flowDown}>
+                <Text style={styles.center}>Hello, { this.state.name }.</Text>
+                <Text style={styles.center}>Please Choose a chat room to join</Text>
 
+                <TouchableHighlight style={styles.button}
+                    underlayColor='#99d9f4'>
+                    <Text style={styles.buttonText}
+                        onPress={this.handleSports.bind(this)}> Sports </Text>
+                </TouchableHighlight>
+
+                <TouchableHighlight style={styles.button}
+                    underlayColor='#99d9f4'>
+                    <Text style={styles.buttonText}
+                        onPress={this.handlePolitics.bind(this)}> Politics </Text>
+                </TouchableHighlight>
+
+                <TouchableHighlight style={styles.button}
+                    underlayColor='#99d9f4'>
+                    <Text style={styles.buttonText}
+                        onPress={this.handleFashion.bind(this)}> Fashion </Text>
+                </TouchableHighlight>
+
+                <TouchableHighlight style={styles.button}
+                    underlayColor='#99d9f4'>
+                    <Text style={styles.buttonText}
+                        onPress={this.handleTechnology.bind(this)}> Technology </Text>
+                </TouchableHighlight>
             </View>
         )
 	}
-};
+}
 
 const styles = StyleSheet.create({
   flowDown: {
@@ -52,6 +114,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#48BBEC',
     borderColor: '#48BBEC',
     justifyContent: 'center',
+    left: 30,
+    top: 200,
+    marginBottom: 2
   },
   inputName: {
     flex: 3.5,
@@ -66,7 +131,7 @@ const styles = StyleSheet.create({
     color: '#48BBEC'
   },
   center: {
-    padding: 20,
-    marginTop: 250,
+    left: 30,
+    top: 200
   }
 });

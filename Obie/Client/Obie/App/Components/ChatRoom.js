@@ -12,26 +12,106 @@ import React, {
 export default class ChatRoom extends Component {
     constructor(props) {
         super(props);
+        //roomId = this.props.roomId
+        this.state = {
+            messages : [],
+            roomName : 'Default Room',
+            userMessage : ''
+        };
+    }
+
+    componentDidMount() {
+        var _this = this;
+        this.props.socket.on('room info for ' + this.props.roomId, function(roomData) {
+            _this.props.socket.emit('checkConnection', roomData);
+            _this.setState({
+                roomName: roomData.name,
+                messages: roomData.messages
+            });
+            _this.forceUpdate();
+        });
+
+        this.props.socket.on("message from " + this.props.roomId, function(message) {
+            _this.state.messages.push(message);
+            _this.forceUpdate();
+        });
+
+        this.props.socket.emit('get room', this.props.roomId);
+
+    }
+
+    handleChange(event) {
+        this.setState({
+            userMessage: event.nativeEvent.text
+        });
+    }
+
+    handleMessageSubmit(event) {
+        var message = {
+            'person': this.props.name,
+            'content': this.state.userMessage,
+            'roomId': this.props.roomId
+        };
+        this.props.socket.emit('chat message', message);
+    }
+
+    handleBack(event) {
+        this.props.navigator.pop();
     }
 
     render() {
+        var _this = this;
         return(
             <View>
+                <Text style={styles.title}>{this.state.roomName}</Text>
+                <TouchableHighlight style={styles.back}
+                    underlayColor='#99d9f4'>
+                    <Text style={styles.buttonText}
+                        onPress={this.handleBack.bind(this)}> Back </Text>
+                </TouchableHighlight>
+                <View style={styles.center}>
+                    {
+                        // print all messages
+                        this.state.messages.map(m => {
+                            return <Text > {m.message} - {m.person} < / Text >
+                        })
+                    }
+                </View>
+                <View style={styles.flowRight}>
+                    <TextInput style={styles.inputName}
+                        placeholder="Enter a message"
+                        textAlign="center"
+                        onChange={this.handleChange.bind(this)} />
 
+                    <TouchableHighlight style={styles.button}
+                        underlayColor='#99d9f4'>
+                        <Text style={styles.buttonText}
+                            onPress={this.handleMessageSubmit.bind(this)}> Go </Text>
+                    </TouchableHighlight>
+                </View>
             </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
+    back: {
+        left:20,
+        top: 50
+    },
     flowRight: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
     },
-    center: {
-        marginTop: 200,
+
+    title: {
+        flex: 1,
+        top: 20,
+        left: 150,
+        alignItems: 'center'
     },
+
     buttonText: {
         fontSize: 18,
         color: 'white',

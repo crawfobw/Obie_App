@@ -16,13 +16,12 @@ export default class Login extends Component {
         permissions={["email","user_friends"]}
         loginBehavior={FBLoginManager.LoginBehaviors.Native}
         onLogin={function(data){
-          console.log("Logged in!");
-          console.log(data);
           _this.setState({ user : data.credentials });
           _this.props.socket.emit('login', data.credentials);
+
           _this.props.navigator.push({
       			id: 'EnterName',
-                user: data.credentials.userId,
+                user: data.credentials,
                 passProps: {user: data.credentials.userId}
           });
         }}
@@ -34,10 +33,11 @@ export default class Login extends Component {
           console.log("Existing login found.");
           console.log(data);
           _this.setState({ user : data.credentials });
+
           _this.props.navigator.push({
-      			id: 'EnterName',
-                user: data.credentials.userId,
-                passProps: {user: data.credentials.userId}
+      			id: 'Home',
+                user: data.credentials,
+                passProps: {user: data.credentials}
           });
         }}
         onLoginNotFound={function(){

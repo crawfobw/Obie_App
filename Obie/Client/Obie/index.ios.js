@@ -14,6 +14,9 @@ import React, {
 import EnterName from './App/Components/EnterName';
 import Home from './App/Components/Home';
 import Login from './App/Components/Login';
+import ChatRoom from './App/Components/ChatRoom.js';
+
+
 
 // Required for socket.io to function properly
 window.navigator.userAgent = "react-native";
@@ -22,10 +25,7 @@ var io = require('socket.io-client/socket.io');
 class Obie extends Component {
   constructor(props) {
     super(props);
-    this.socket = io('http://localhost:8000', {jsonp: false})
-    this.state = {
-      message: ''
-    };
+    this.socket = io('http://localhost:8000', {jsonp: false});
   }
 
   renderScene = (route, navigator) => {
@@ -33,13 +33,11 @@ class Obie extends Component {
       // invoke function on trying to pass socket
       return <EnterName socket={this.socket} {...route.passProps} index={this.index} navigator={navigator} />
     } else if (route.id == 'Home') {
-      return <Home name={route.name} socket={this.socket} index={this.index} navigator={navigator}/>
-    } else if (route.id == 'Message') {
-      return <Message socket={this.socket} index={this.index} navigator={navigator} />
+      return <Home name={route.name} {...route.passProps} socket={this.socket} index={this.index} navigator={navigator}/>
     } else if (route.id == 'Login') {
       return <Login socket={this.socket} index={this.index} navigator={navigator}/>
     } else if (route.id == 'Room') {
-      return <ChatRoom socket={this.socket} index={this.index} navigator={navigator}/>
+      return <ChatRoom socket={this.socket} {...route.passProps} index={this.index} navigator={navigator}/>
     }
   };
 
