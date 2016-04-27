@@ -96,8 +96,14 @@ export default class ChatRoom extends Component {
 
 const styles = StyleSheet.create({
     back: {
+        height: 36,
+        width: 60,
+        flex: 1,
+        borderRadius: 8,
+        backgroundColor: '#48BBEC',
+        borderColor: '#48BBEC',
         left:20,
-        top: 50
+
     },
     flowRight: {
         flexDirection: 'row',
@@ -108,6 +114,7 @@ const styles = StyleSheet.create({
     title: {
         flex: 1,
         top: 20,
+        fontSize: 24,
         left: 150,
         alignItems: 'center'
     },
