@@ -24,6 +24,8 @@ var rooms = [
     { id: 'technology', name: 'Technology', messages: [""] }
 ];
 
+var users = [];
+
 var findRoom = function(roomId) {
     var roomFound = null;
 
