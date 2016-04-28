@@ -23,7 +23,6 @@ export default class ChatRoom extends Component {
     componentDidMount() {
         var _this = this;
         this.props.socket.on('room info for ' + this.props.roomId, function(roomData) {
-            _this.props.socket.emit('checkConnection', roomData);
             _this.setState({
                 roomName: roomData.name,
                 messages: roomData.messages
@@ -86,7 +85,7 @@ export default class ChatRoom extends Component {
                     <TouchableHighlight style={styles.button}
                         underlayColor='#99d9f4'>
                         <Text style={styles.buttonText}
-                            onPress={this.handleMessageSubmit.bind(this)}> Go </Text>
+                            onPress={this.handleMessageSubmit.bind(this)}> Send </Text>
                     </TouchableHighlight>
                 </View>
             </View>

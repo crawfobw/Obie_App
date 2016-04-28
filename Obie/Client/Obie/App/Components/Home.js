@@ -22,7 +22,7 @@ export default class Home extends Component {
 		this.state = {
 			name: 'placeholder'
 		};
-        //this.props.socket.emit('checkConnection', this.props.user);
+
         var path = 'https://graph.facebook.com/' + this.props.user.userId +"?access_token=" + this.props.user.token;
         fetch(path, {
             method: 'GET',

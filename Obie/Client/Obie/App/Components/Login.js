@@ -20,9 +20,9 @@ export default class Login extends Component {
           _this.props.socket.emit('login', data.credentials);
 
           _this.props.navigator.push({
-      			id: 'EnterName',
+      			id: 'Home',
                 user: data.credentials,
-                passProps: {user: data.credentials.userId}
+                passProps: {user: data.credentials}
           });
         }}
         onLogout={function(){

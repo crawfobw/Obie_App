@@ -35,21 +35,13 @@ var findRoom = function(roomId) {
     return roomFound;
 };
 
-var users = [];
-
 // logger development mode
 app.use(logger('dev'));
 
 // Server socket handler
 ioServer.on('connection', function(socket) {
-    console.log('user connected to socket');
-
     socket.on('checkConnection', function(data) {
        console.log(data);
-    });
-
-    socket.on('test', function(){
-        console.log("successful connection to socket");
     });
 
     socket.on('login', function(credentials) {
@@ -59,22 +51,12 @@ ioServer.on('connection', function(socket) {
             users.push(person);
         }
 
-        //console.log("logged in users: ");
-        //users.forEach(function(user) {
-        //    console.log(user);
-        //})
-    });
-
-    socket.on('logout', function(userId) {
-        // find user and remove from list of active users
     });
 
     socket.on('chat message', function(message) {
-        console.log(message);
         findRoom(message.roomId).messages.push({'person' : message.person, 'message' : message.content});
         ioServer.emit('message from ' + message.roomId, {'person' : message.person, 'message' : message.content});
     });
-
 
 
     socket.on('get room', function(roomId) {
@@ -88,20 +70,9 @@ ioServer.on('connection', function(socket) {
     });
 });
 
-// Get from root
-app.get('/', function(req, res){
-    res.sendFile(__dirname + '/index.html');
-});
-
 // listen on port 8000
 server.listen(8000, function() {
     console.log("Server listening on port " + server.address().port);
-    //rooms = { id: 'sports', name: 'Sports', messages: [{'person' : "David Harper", 'message': "Lebron James is the GOAT"}, {'person': "John Fox", 'message' :"Michael Jordan was easily better than Lebron"},
-    //    {'person': "David Harper", 'message' : "Stop being a Lebron Hater!!!"}] },
-    //{ id: 'politics', name: 'Politics', messages: [{'person': "Andrew Johnson", 'message': "Bernie Sanders for pres #feelthebern"},
-    //    {'person': "Christina Liu", 'message': "I feel that we need a moderate president"}, {'person': "Leslie Pratt", 'message': "There isn't time for moderates, we need TRUMP! MAKE AMERICA GREAT AGAIN!!!"}]},
-    //{ id: 'fashion', name: 'Fashion', messages: [""] },
-    //{ id: 'technology', name: 'Technology', messages: [""] }
 });
 
 
